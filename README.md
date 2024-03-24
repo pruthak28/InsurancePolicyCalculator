@@ -92,3 +92,5 @@ The system should have
     </li>
 </ol>
 
+## Test
+To run the testcases use <code>bundle exec rspec</code> command.
