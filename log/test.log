@@ -1,0 +1,606 @@
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "finance_terms"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal, "amt_financed" decimal, "due_date" datetime(6), "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "insurance_policies"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal, "tax_fee" decimal, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insureds"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insureds" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "afinance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_afinance_terms_on_insurance_policies_id" ON "afinance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "afinance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "finance_terms"[0m
+  [1m[35m (1.4ms)[0m  [1m[35mDROP TABLE "finance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3f043e1df9"
+FOREIGN KEY ("insurance_policies_id")
+  REFERENCES "insurance_policies" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "finance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "afinance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "afinance_terms"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ainsurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_ainsurance_policies_on_insureds_id" ON "ainsurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "ainsurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_43dc707e0f"
+FOREIGN KEY ("insureds_id")
+  REFERENCES "insureds" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "insurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "ainsurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "ainsurance_policies"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20240324152152)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20240324152151),
+(20240324152133);[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2024-03-24 19:49:33.170902', '2024-03-24 19:49:33.170905') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'fba5024f2811b820069cc64010486b721428ad5e', '2024-03-24 19:49:33.171864', '2024-03-24 19:49:33.171866') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "finance_terms"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal, "amt_financed" decimal, "due_date" datetime(6), "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insurance_policies"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal, "tax_fee" decimal, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insureds"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insureds" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "afinance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_afinance_terms_on_insurance_policies_id" ON "afinance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "afinance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "finance_terms"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "finance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3f043e1df9"
+FOREIGN KEY ("insurance_policies_id")
+  REFERENCES "insurance_policies" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "finance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "afinance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "afinance_terms"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ainsurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_ainsurance_policies_on_insureds_id" ON "ainsurance_policies" ("insureds_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "ainsurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_43dc707e0f"
+FOREIGN KEY ("insureds_id")
+  REFERENCES "insureds" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "insurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "ainsurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "ainsurance_policies"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20240324152152)[0m
+  [1m[35m (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20240324152151),
+(20240324152133);[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2024-03-24 19:56:39.055977', '2024-03-24 19:56:39.055997') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'fba5024f2811b820069cc64010486b721428ad5e', '2024-03-24 19:56:39.057086', '2024-03-24 19:56:39.057088') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[35m (0.5ms)[0m  [1m[35mDROP TABLE IF EXISTS "finance_terms"[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal, "amt_financed" decimal, "due_date" datetime(6), "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insurance_policies"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal, "tax_fee" decimal, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insureds"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insureds" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "afinance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_afinance_terms_on_insurance_policies_id" ON "afinance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "afinance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "finance_terms"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "finance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3f043e1df9"
+FOREIGN KEY ("insurance_policies_id")
+  REFERENCES "insurance_policies" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "finance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "afinance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "afinance_terms"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ainsurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_ainsurance_policies_on_insureds_id" ON "ainsurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "ainsurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_43dc707e0f"
+FOREIGN KEY ("insureds_id")
+  REFERENCES "insureds" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "insurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "ainsurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "ainsurance_policies"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20240324152152)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20240324152151),
+(20240324152133);[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2024-03-24 19:59:45.864475', '2024-03-24 19:59:45.864477') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'fba5024f2811b820069cc64010486b721428ad5e', '2024-03-24 19:59:45.865719', '2024-03-24 19:59:45.865721') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "finance_terms"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal, "amt_financed" decimal, "due_date" datetime(6), "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insurance_policies"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal, "tax_fee" decimal, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insureds"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insureds" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "afinance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_afinance_terms_on_insurance_policies_id" ON "afinance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "afinance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "finance_terms"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "finance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3f043e1df9"
+FOREIGN KEY ("insurance_policies_id")
+  REFERENCES "insurance_policies" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "finance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "afinance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "afinance_terms"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ainsurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_ainsurance_policies_on_insureds_id" ON "ainsurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "ainsurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_43dc707e0f"
+FOREIGN KEY ("insureds_id")
+  REFERENCES "insureds" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "insurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "ainsurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "ainsurance_policies"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20240324152152)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20240324152151),
+(20240324152133);[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2024-03-24 20:00:10.347722', '2024-03-24 20:00:10.347729') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'fba5024f2811b820069cc64010486b721428ad5e', '2024-03-24 20:00:10.348527', '2024-03-24 20:00:10.348528') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "finance_terms"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal, "amt_financed" decimal, "due_date" datetime(6), "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insurance_policies"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal, "tax_fee" decimal, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insureds"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insureds" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "afinance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_afinance_terms_on_insurance_policies_id" ON "afinance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "afinance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "finance_terms"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "finance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3f043e1df9"
+FOREIGN KEY ("insurance_policies_id")
+  REFERENCES "insurance_policies" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "finance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "afinance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "afinance_terms"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ainsurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_ainsurance_policies_on_insureds_id" ON "ainsurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "ainsurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_43dc707e0f"
+FOREIGN KEY ("insureds_id")
+  REFERENCES "insureds" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "insurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "ainsurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "ainsurance_policies"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20240324152152)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20240324152151),
+(20240324152133);[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2024-03-24 20:02:08.385303', '2024-03-24 20:02:08.385305') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'fba5024f2811b820069cc64010486b721428ad5e', '2024-03-24 20:02:08.386148', '2024-03-24 20:02:08.386149') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[35m (0.5ms)[0m  [1m[35mDROP TABLE IF EXISTS "finance_terms"[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal, "amt_financed" decimal, "due_date" datetime(6), "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insurance_policies"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal, "tax_fee" decimal, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "insureds"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insureds" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "afinance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_afinance_terms_on_insurance_policies_id" ON "afinance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "afinance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "finance_terms"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "finance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3f043e1df9"
+FOREIGN KEY ("insurance_policies_id")
+  REFERENCES "insurance_policies" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "finance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "afinance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "afinance_terms"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ainsurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_ainsurance_policies_on_insureds_id" ON "ainsurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "ainsurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_43dc707e0f"
+FOREIGN KEY ("insureds_id")
+  REFERENCES "insureds" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "insurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "ainsurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "ainsurance_policies"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20240324152152)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20240324152151),
+(20240324152133);[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2024-03-24 20:03:57.445477', '2024-03-24 20:03:57.445479') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'fba5024f2811b820069cc64010486b721428ad5e', '2024-03-24 20:03:57.446412', '2024-03-24 20:03:57.446413') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "finance_terms"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal, "amt_financed" decimal, "due_date" datetime(6), "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insurance_policies"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal, "tax_fee" decimal, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insureds"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insureds" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "afinance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_afinance_terms_on_insurance_policies_id" ON "afinance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "afinance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "finance_terms"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "finance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3f043e1df9"
+FOREIGN KEY ("insurance_policies_id")
+  REFERENCES "insurance_policies" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "finance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "afinance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "afinance_terms"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ainsurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_ainsurance_policies_on_insureds_id" ON "ainsurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "ainsurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_43dc707e0f"
+FOREIGN KEY ("insureds_id")
+  REFERENCES "insureds" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "insurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "ainsurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "ainsurance_policies"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20240324152152)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20240324152151),
+(20240324152133);[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2024-03-24 20:04:27.755703', '2024-03-24 20:04:27.755705') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'fba5024f2811b820069cc64010486b721428ad5e', '2024-03-24 20:04:27.756722', '2024-03-24 20:04:27.756724') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "finance_terms"[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal, "amt_financed" decimal, "due_date" datetime(6), "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insurance_policies"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal, "tax_fee" decimal, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insureds"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insureds" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "afinance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_afinance_terms_on_insurance_policies_id" ON "afinance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "afinance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "finance_terms"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "finance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3f043e1df9"
+FOREIGN KEY ("insurance_policies_id")
+  REFERENCES "insurance_policies" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "finance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "afinance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "afinance_terms"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ainsurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_ainsurance_policies_on_insureds_id" ON "ainsurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "ainsurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_43dc707e0f"
+FOREIGN KEY ("insureds_id")
+  REFERENCES "insureds" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "insurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "ainsurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "ainsurance_policies"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20240324152152)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20240324152151),
+(20240324152133);[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2024-03-24 20:04:54.552501', '2024-03-24 20:04:54.552504') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'fba5024f2811b820069cc64010486b721428ad5e', '2024-03-24 20:04:54.553415', '2024-03-24 20:04:54.553417') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "finance_terms"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal, "amt_financed" decimal, "due_date" datetime(6), "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insurance_policies"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal, "tax_fee" decimal, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "insureds"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "insureds" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "afinance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_afinance_terms_on_insurance_policies_id" ON "afinance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "afinance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "finance_terms"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "finance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "finance_terms" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "downpayment" decimal DEFAULT NULL, "amt_financed" decimal DEFAULT NULL, "due_date" datetime(6) DEFAULT NULL, "is_accepted" boolean DEFAULT 0, "insurance_policies_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3f043e1df9"
+FOREIGN KEY ("insurance_policies_id")
+  REFERENCES "insurance_policies" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_finance_terms_on_insurance_policies_id" ON "finance_terms" ("insurance_policies_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "finance_terms" ("id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at")
+                     SELECT "id","downpayment","amt_financed","due_date","is_accepted","insurance_policies_id","created_at","updated_at" FROM "afinance_terms"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "afinance_terms"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "ainsurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_ainsurance_policies_on_insureds_id" ON "ainsurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "ainsurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "insurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "insurance_policies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "premium" decimal DEFAULT NULL, "tax_fee" decimal DEFAULT NULL, "insureds_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_43dc707e0f"
+FOREIGN KEY ("insureds_id")
+  REFERENCES "insureds" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_insurance_policies_on_insureds_id" ON "insurance_policies" ("insureds_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "insurance_policies" ("id","premium","tax_fee","insureds_id","created_at","updated_at")
+                     SELECT "id","premium","tax_fee","insureds_id","created_at","updated_at" FROM "ainsurance_policies"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "ainsurance_policies"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20240324152152)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20240324152151),
+(20240324152133);[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2024-03-24 20:05:07.101776', '2024-03-24 20:05:07.101779') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'fba5024f2811b820069cc64010486b721428ad5e', '2024-03-24 20:05:07.102709', '2024-03-24 20:05:07.102711') RETURNING "key"[0m

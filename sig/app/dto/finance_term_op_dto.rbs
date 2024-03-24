@@ -1,0 +1,15 @@
+class FinanceTermOPDTO
+  attr_accessor id: untyped
+
+  attr_accessor policy_id: untyped
+
+  attr_accessor insured_name: untyped
+
+  attr_accessor downpayment: untyped
+
+  attr_accessor amt_financed: untyped
+
+  attr_accessor due_date: untyped
+
+  attr_accessor is_accepted: untyped
+end
